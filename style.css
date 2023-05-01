@@ -79,4 +79,60 @@ body {
   vertical-align: top;
   padding: 0;
   position: relative;
-}  
+}
+
+.keyboard__key:nth-child(56) {
+  margin-right: 66px;
+  margin-left: 66px;
+}
+
+.keyboard__key--ctrl{
+  padding: 13px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.keyboard__key--ctrl{
+  padding: 13px;
+  text-align: center;
+  overflow: hidden;
+}
+  
+.keyboard__key--tab {
+  width: 12%;
+  max-width: 500px;
+}
+
+.keyboard__key--shift {
+  width: 18%;
+}
+
+.keyboard__key--cmdbtn {
+  width: 20%;
+}
+  
+.keyboard__key--large {
+  width: 91%;
+  max-width: 500px;
+}
+  
+.keyboard__key--light::after {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  content: '';
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+}
+
+.keyboard__key--active {
+  background:  rgb(170, 128, 128);
+  box-shadow: 0 0 10px white;
+}
+  
+.keyboard__key--active::after {
+  background: #ffffff;
+  box-shadow: 0 0 10px white;
+}
