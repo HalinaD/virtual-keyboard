@@ -42,7 +42,7 @@ const keyboard = {
      
       this.elems.main.classList.add("keyboard");
       this.elems.keysBox.classList.add("keyboard__box");
-      //this.elems.keysBox.appendChild(this.somefunction());
+      this.elems.keysBox.appendChild(this.getkeys());
   
       this.elems.keys = this.elems.keysBox.querySelectorAll(".keyboard__key");
   
@@ -56,7 +56,102 @@ const keyboard = {
             element.value = currentValue;
           });
         });
-      });},
+      });
+
+      const body = document.querySelector("body");
+
+      document.addEventListener("keydown", (e) => {
+        let pos = document.querySelector(".textarea-field").selectionStart;
+        let prev = this.properties.value.slice(0, pos);
+        let next = this.properties.value.slice(pos);
+
+          body.lastElementChild.firstElementChild.childNodes.forEach( btn => {
+            if (e.code == "Key" + btn.innerText.toUpperCase()) {
+              document.querySelector(".textarea-field").focus();
+              btn.classList.add("keyboard__key--keyboard");
+              this.properties.value = prev + btn.innerText + next;
+            } else if (e.code == "CapsLock" && btn.innerText == "keyboard_capslock") {
+              btn.classList.add("keyboard__key--keyboard");
+              btn.click();
+
+            } else if (e.code == "ShiftLeft" && btn.innerText == "arrow_upward") {
+              btn.classList.add("keyboard__key--keyboard");
+         //     this.useshift(true);
+              btn.click();
+            } else if (e.code == "ControlLeft" && btn.innerText == "Ctrl") {
+              btn.classList.add("keyboard__key--keyboard");
+              btn.click();
+              btn.classList.add("keyboard__key--ctrl");
+              btn.innerHTML = "Ctrl";
+              } else if (e.code == "AltLeft" && btn.innerText == "Alt") {
+                btn.classList.add("keyboard__key--keyboard");
+                btn.click();
+                btn.classList.add("keyboard__key--ctrl");
+                btn.innerHTML = "Alt";
+
+            } else if (e.code == "Enter" && btn.innerText == "keyboard_return") {
+              btn.classList.add("keyboard__key--keyboard");
+              this.properties.value = prev + "\n" + next;
+            } else if (e.code == "Backspace" && btn.innerText == "keyboard_backspace") {
+              btn.classList.add("keyboard__key--keyboard");
+              this.properties.value = prev.substring(0, prev.length - 1) + next;
+            } else if (e.code == "Space" && btn.innerText == "space_bar") {
+              btn.classList.add("keyboard__key--keyboard");
+              this.properties.value = prev + " " + next;
+
+            } else if (e.code == "Tab" && btn.innerText == "keyboard_tab") {
+              document.querySelector(".textarea-field").focus();
+              btn.classList.add("keyboard__key--keyboard");
+              this.properties.value = prev + "    " + next;
+        //      this.triggerevent("oninput");
+              
+              
+            } else if ( e.code == "ArrowLeft" && btn.innerText == "keyboard_arrow_left") {
+              document.querySelector(".textarea-field").focus();
+              btn.classList.add("keyboard__key--keyboard");
+              this.properties.value += "⇐"
+         //     this.triggerevent("oninput");
+            } else if ( e.code == "ArrowRight" && btn.innerText == "keyboard_arrow_right") {
+              document.querySelector(".textarea-field").focus();
+              btn.classList.add("keyboard__key--keyboard");
+              this.properties.value += "⇒"
+         //     this.triggerevent("oninput");
+            }  else if ( e.code == "ArrowDown" && btn.innerText == "keyboard_arrow_down") {
+              document.querySelector(".textarea-field").focus();
+              btn.classList.add("keyboard__key--keyboard");
+              this.properties.value += "⇓"
+        //      this.triggerevent("oninput");
+            }  else if ( e.code == "ArrowUp" && btn.innerText == "keyboard_arrow_up") {
+              document.querySelector(".textarea-field").focus();
+              btn.classList.add("keyboard__key--keyboard");
+              this.properties.value += "⇑"
+         //     this.triggerevent("oninput");
+            } else if ( 
+            e.key == "/" && btn.innerText == "?" ||
+            e.key == btn.innerText) { btn.classList.add("keyboard__key--keyboard");
+            this.properties.value = prev + btn.innerText + next;
+}
+          })
+          
+      });
+
+      document.addEventListener("keyup", (e) => {
+        body.lastElementChild.firstElementChild.childNodes.forEach( btn => {
+            if (btn.innerText !== "check_circle") {
+              btn.classList.remove("keyboard__key--keyboard");
+            } 
+             if (e.code == "ShiftLeft" && btn.innerText == "arrow_upward") {
+              btn.classList.remove("keyboard__key--keyboard");
+         //     this.useshift(true);
+              btn.click();}
+        })
+      });
+    },
+
+    extend(initialValue, oninput) {
+        this.properties.value = initialValue || "";
+        this.ehandlers.oninput = oninput;
+      },
     
  getkeys() {
       const fragment = document.createDocumentFragment();
@@ -200,6 +295,7 @@ const keyboard = {
             keybtn.innerHTML = createIconHTML("keyboard_arrow_left");
 
             keybtn.addEventListener("click", () => {
+                document.querySelector(".textarea-field").focus();
                 this.properties.value += charleft
                 this.triggerevent("oninput");
             });
@@ -213,6 +309,7 @@ const keyboard = {
           keybtn.innerHTML = createIconHTML("keyboard_arrow_right");
 
           keybtn.addEventListener("click", () => {
+            document.querySelector(".textarea-field").focus();
               this.properties.value += charright   
           //    this.triggerevent("oninput");
           });
@@ -225,6 +322,7 @@ const keyboard = {
               keybtn.innerHTML = createIconHTML("keyboard_arrow_up");
 
               keybtn.addEventListener("click", () => {
+                document.querySelector(".textarea-field").focus();
                   this.properties.value += charup
           //        this.triggerevent("oninput");
               });
@@ -240,6 +338,7 @@ const keyboard = {
                   keybtn.innerHTML = createIconHTML("keyboard_arrow_down");
 
                   keybtn.addEventListener("click", () => {
+                    document.querySelector(".textarea-field").focus();
                       this.properties.value += chardown
                       //document.querySelector(".textarea-field").className += " myClass";
                       //input.classList.toggle("myClass")
