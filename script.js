@@ -76,7 +76,7 @@ const keyboard = {
 
             } else if (e.code == "ShiftLeft" && btn.innerText == "arrow_upward") {
               btn.classList.add("keyboard__key--keyboard");
-         //     this.useshift(true);
+              this.useshift(true);
               btn.click();
             } else if (e.code == "ControlLeft" && btn.innerText == "Ctrl") {
               btn.classList.add("keyboard__key--keyboard");
@@ -142,7 +142,7 @@ const keyboard = {
             } 
              if (e.code == "ShiftLeft" && btn.innerText == "arrow_upward") {
               btn.classList.remove("keyboard__key--keyboard");
-         //     this.useshift(true);
+              this.useshift(true);
               btn.click();}
         })
       });
@@ -265,7 +265,7 @@ const keyboard = {
             keybtn.addEventListener("mouseup", () => {
               document.querySelector(".textarea-field").focus();
 
-           //   this.useshift(false);
+              this.useshift(false);
               keybtn.classList.toggle("keyboard__key--active", this.properties.shift);
             })
 
@@ -413,5 +413,51 @@ const keyboard = {
           }
         }
       },
+
+useshift() {
+      this.properties.shift = !this.properties.shift;
+
+       const ruitems = ["ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."];
+  const rushiftitems = ["Ё", "!", '"', "№", ";", "%", ":", "?", "*", "(", ")", ","];    
+       const enitems = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "[", "]", ";", "'", ",", ".", "/"];
+  const enshiftitems = ["~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "{", "}", ":", '"', "<", ">", "?"];
+  
+
+      document.querySelectorAll("button").forEach(btn => {
+
+        if (this.properties.shift && this.properties.lang == false) {
+          if (btn.innerText.charCodeAt(0) > 64 && btn.innerText.charCodeAt(0) < 91 && btn.innerText.length == 1) {
+            btn.innerText = btn.innerText.toLowerCase();
+          } else if (btn.innerText.charCodeAt(0) > 96 && btn.innerText.charCodeAt(0) < 123 && btn.innerText.length == 1) {
+            btn.innerText = btn.innerText.toUpperCase();
+          } else if (enitems.indexOf(btn.innerText) > -1) {
+            btn.innerText = enshiftitems[enitems.indexOf(btn.innerText)];
+          }
+        } else if (this.properties.lang == false) {
+          if (btn.innerText.charCodeAt(0) > 64 && btn.innerText.charCodeAt(0) < 91 && btn.innerText.length == 1) {
+            btn.innerText = btn.innerText.toLowerCase();
+          } else if (btn.innerText.charCodeAt(0) > 96 && btn.innerText.charCodeAt(0) < 123 && btn.innerText.length == 1) {
+            btn.innerText = btn.innerText.toUpperCase();
+          } else if (enshiftitems.indexOf(btn.innerText) > -1) {
+            btn.innerText = enitems[enshiftitems.indexOf(btn.innerText)];
+          }
+        } else if (this.properties.shift && this.properties.lang == true) {
+          if (btn.innerText.charCodeAt(0) > 1039 && btn.innerText.charCodeAt(0) < 1072 && btn.innerText.length == 1) {
+            btn.innerText = btn.innerText.toLowerCase();
+          } else if (btn.innerText.charCodeAt(0) > 1071 && btn.innerText.charCodeAt(0) < 1104 && btn.innerText.length == 1) {
+            btn.innerText = btn.innerText.toUpperCase();
+          } else if (ruitems.indexOf(btn.innerText) > -1) {
+            btn.innerText = rushiftitems[ruitems.indexOf(btn.innerText)];
+          }
+        } else {
+          if (btn.innerText.charCodeAt(0) > 1039 && btn.innerText.charCodeAt(0) < 1072 && btn.innerText.length == 1) {
+            btn.innerText = btn.innerText.toLowerCase();
+          } else if (btn.innerText.charCodeAt(0) > 1071 && btn.innerText.charCodeAt(0) < 1104 && btn.innerText.length == 1) {
+            btn.innerText = btn.innerText.toUpperCase();
+          } else if (rushiftitems.indexOf(btn.innerText) > -1) {
+            btn.innerText = ruitems[rushiftitems.indexOf(btn.innerText)];
+          }}
+      })
+    },
 
     }
