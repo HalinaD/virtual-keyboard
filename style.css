@@ -92,10 +92,14 @@ body {
   overflow: hidden;
 }
 
-.keyboard__key--ctrl{
-  padding: 13px;
-  text-align: center;
-  overflow: hidden;
+.keyboard__key--keyboard {
+  box-shadow: 0 0 10px white;
+  background: rgb(170, 128, 128);
+}
+  
+.keyboard__key:active {
+  box-shadow: 0 0 10px white;
+  background: rgb(170, 128, 128);
 }
   
 .keyboard__key--tab {

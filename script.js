@@ -103,29 +103,29 @@ const keyboard = {
               document.querySelector(".textarea-field").focus();
               btn.classList.add("keyboard__key--keyboard");
               this.properties.value = prev + "    " + next;
-        //      this.triggerevent("oninput");
+              this.triggerevent("oninput");
               
               
             } else if ( e.code == "ArrowLeft" && btn.innerText == "keyboard_arrow_left") {
               document.querySelector(".textarea-field").focus();
               btn.classList.add("keyboard__key--keyboard");
               this.properties.value += "⇐"
-         //     this.triggerevent("oninput");
+              this.triggerevent("oninput");
             } else if ( e.code == "ArrowRight" && btn.innerText == "keyboard_arrow_right") {
               document.querySelector(".textarea-field").focus();
               btn.classList.add("keyboard__key--keyboard");
               this.properties.value += "⇒"
-         //     this.triggerevent("oninput");
+              this.triggerevent("oninput");
             }  else if ( e.code == "ArrowDown" && btn.innerText == "keyboard_arrow_down") {
               document.querySelector(".textarea-field").focus();
               btn.classList.add("keyboard__key--keyboard");
               this.properties.value += "⇓"
-        //      this.triggerevent("oninput");
+              this.triggerevent("oninput");
             }  else if ( e.code == "ArrowUp" && btn.innerText == "keyboard_arrow_up") {
               document.querySelector(".textarea-field").focus();
               btn.classList.add("keyboard__key--keyboard");
               this.properties.value += "⇑"
-         //     this.triggerevent("oninput");
+              this.triggerevent("oninput");
             } else if ( 
             e.key == "/" && btn.innerText == "?" ||
             e.key == btn.innerText) { btn.classList.add("keyboard__key--keyboard");
@@ -185,7 +185,7 @@ const keyboard = {
 
                 document.querySelector(".textarea-field").focus();
                 this.properties.value = prev.substring(0, prev.length - 1) + next;
-               // this.triggereventprev("oninput");
+                this.triggereventprev("oninput");
               });
  
   
@@ -243,7 +243,7 @@ const keyboard = {
 
               document.querySelector(".textarea-field").focus();
               this.properties.value = prev + " " + next;
-          //    this.triggerevent("oninput");
+              this.triggerevent("oninput");
 
               
             });
@@ -278,7 +278,7 @@ const keyboard = {
 
             keybtn.addEventListener("click", () => {
               document.querySelector(".textarea-field").focus();
-          //    this.changelanguage();
+              this.changelanguage();
               keybtn.innerHTML = this.properties.lang ? "Ru": "En"
              
               keybtn.classList.toggle(this.properties.lang);
@@ -311,7 +311,7 @@ const keyboard = {
           keybtn.addEventListener("click", () => {
             document.querySelector(".textarea-field").focus();
               this.properties.value += charright   
-          //    this.triggerevent("oninput");
+              this.triggerevent("oninput");
           });
 
             break;
@@ -324,7 +324,7 @@ const keyboard = {
               keybtn.addEventListener("click", () => {
                 document.querySelector(".textarea-field").focus();
                   this.properties.value += charup
-          //        this.triggerevent("oninput");
+                  this.triggerevent("oninput");
               });
 
               break; 
@@ -342,7 +342,7 @@ const keyboard = {
                       this.properties.value += chardown
                       //document.querySelector(".textarea-field").className += " myClass";
                       //input.classList.toggle("myClass")
-                 //     this.triggerevent("oninput");
+                      this.triggerevent("oninput");
                   });
 
                   break; 
@@ -358,7 +358,7 @@ const keyboard = {
   
                 document.querySelector(".textarea-field").focus();
                 this.properties.value = prev + "    " + next;
-              //  this.triggerevent("oninput");
+                this.triggerevent("oninput");
               });
               break;
           
@@ -481,5 +481,27 @@ changelanguage() {
         }
       })
     },
-
+    
+    triggereventprev(handlerName) {
+        if (typeof this.ehandlers[handlerName] == "function") {
+          let pos = document.querySelector(".textarea-field").selectionStart;
+          this.ehandlers[handlerName](this.properties.value);
+          if (pos > 0) {
+            document.querySelector(".textarea-field").selectionEnd = pos + 1;
+          } else {
+            document.querySelector(".textarea-field").selectionStart = 0;
+            document.querySelector(".textarea-field").selectionEnd = 0;
+          }
+        }
+      },
+  
+      triggerevent(handlerName) {
+        if (typeof this.ehandlers[handlerName] == "function") {
+          let pos = document.querySelector(".textarea-field").selectionStart;
+          this.ehandlers[handlerName](this.properties.value);
+          document.querySelector(".textarea-field").selectionEnd = pos + 1;
+        }
+      },
+  
+   
     }
