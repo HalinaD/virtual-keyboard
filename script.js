@@ -197,7 +197,7 @@ const keyboard = {
   
             keybtn.addEventListener("click", () => {
               document.querySelector(".textarea-field").focus();
-           //   this.usecapslock();
+             this.usecapslock();
               keybtn.classList.toggle("keyboard__key--active", this.properties.capsLock);
             });
   
@@ -400,5 +400,18 @@ const keyboard = {
       return fragment;
     },
    
+    usecapslock() {
+        this.properties.capsLock = !this.properties.capsLock;
     
+        for (const key of this.elems.keys) {
+          if (key.childElementCount === 0 && key.innerText.length == 1) {
+            if (this.properties.shift) {
+              key.textContent = this.properties.capsLock ? key.textContent.toLowerCase() : key.textContent.toUpperCase();
+            } else {
+              key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+            }
+          }
+        }
+      },
+
     }
