@@ -460,4 +460,26 @@ useshift() {
       })
     },
 
+changelanguage() {
+      if (this.properties.shift) this.useshift();
+      if (this.properties.capsLock) this.usecapslock();
+      this.properties.lang = !this.properties.lang;
+
+      const ru = ["ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', "э", 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.'];
+      const en = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/'];
+
+      document.querySelectorAll("button").forEach(btn => {
+        btn.classList.remove("keyboard__key--active");
+        if (this.properties.lang) {
+          if (en.indexOf(btn.innerText) > -1) {
+            btn.innerText = ru[en.indexOf(btn.innerText)];
+          }
+        } else {
+          if (ru.indexOf(btn.innerText) > -1) {
+            btn.innerText = en[ru.indexOf(btn.innerText)];
+          }
+        }
+      })
+    },
+
     }
