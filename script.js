@@ -1,507 +1,437 @@
-window.addEventListener("DOMContentLoaded", function () {
-    
-    var title = document.createElement('h1');
-      title.className = 'title';
-      title.innerHTML = 'Клавиатура создана в операционной системе Windows';
-      document.body.appendChild(title);
-  
-    var subtitle = document.createElement('h3');
-      subtitle.className = 'subtitle';
-      subtitle.innerHTML = 'Для смены языка используйте кнопку Lang';
-      document.body.appendChild(subtitle);   
-      keyboard.start();
-  });
-
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-case-declarations */
 const keyboard = {
   properties: {
     shift: false,
     capsLock: false,
-    value: "",
-    lang: false
+    value: '',
+    lang: false,
   },
-  
   elems: {
     keys: [],
     main: null,
     keysBox: null,
-    language : null
+    language: null,
   },
-  
   ehandlers: {
-    oninput: null
+    oninput: null,
   },
-
-    start() {
-        var input = document.createElement('textarea');
-        input.className = 'textarea-field';
-        input.placeholder = 'Press any button...'
-        document.body.appendChild(input);
-        
-      this.elems.keysBox = document.createElement("div");
-      this.elems.main = document.createElement("div");
-     
-      this.elems.main.classList.add("keyboard");
-      this.elems.keysBox.classList.add("keyboard__box");
-      this.elems.keysBox.appendChild(this.getkeys());
-  
-      this.elems.keys = this.elems.keysBox.querySelectorAll(".keyboard__key");
-  
-      this.elems.main.appendChild(this.elems.keysBox);
-      
-      document.body.appendChild(this.elems.main);
-  
-      document.querySelectorAll(".textarea-field").forEach(element => {
-        element.addEventListener("focus", () => {
-          this.extend(element.value, currentValue => {
-            element.value = currentValue;
-          });
+  start() {
+    const input = document.createElement('textarea');
+    input.className = 'textarea-field';
+    input.placeholder = 'Press any button...';
+    document.body.appendChild(input);
+    this.elems.keysBox = document.createElement('div');
+    this.elems.main = document.createElement('div');
+    this.elems.main.classList.add('keyboard');
+    this.elems.keysBox.classList.add('keyboard__box');
+    this.elems.keysBox.appendChild(this.getkeys());
+    this.elems.keys = this.elems.keysBox.querySelectorAll('.keyboard__key');
+    this.elems.main.appendChild(this.elems.keysBox);
+    document.body.appendChild(this.elems.main);
+    document.querySelectorAll('.textarea-field').forEach((element) => {
+      element.addEventListener('focus', () => {
+        this.extend(element.value, (currentValue) => {
+          // eslint-disable-next-line no-param-reassign
+          element.value = currentValue;
         });
       });
-
-      const body = document.querySelector("body");
-
-      document.addEventListener("keydown", (e) => {
-        let pos = document.querySelector(".textarea-field").selectionStart;
-        let prev = this.properties.value.slice(0, pos);
-        let next = this.properties.value.slice(pos);
-
-          body.lastElementChild.firstElementChild.childNodes.forEach( btn => {
-            if (e.code == "Key" + btn.innerText.toUpperCase()) {
-              document.querySelector(".textarea-field").focus();
-              btn.classList.add("keyboard__key--keyboard");
-              this.properties.value = prev + btn.innerText + next;
-            } else if (e.code == "CapsLock" && btn.innerText == "keyboard_capslock") {
-              btn.classList.add("keyboard__key--keyboard");
-              btn.click();
-
-            } else if (e.code == "ShiftLeft" && btn.innerText == "arrow_upward") {
-              btn.classList.add("keyboard__key--keyboard");
-              this.useshift(true);
-              btn.click();
-            } else if (e.code == "ControlLeft" && btn.innerText == "Ctrl") {
-              btn.classList.add("keyboard__key--keyboard");
-              btn.click();
-              btn.classList.add("keyboard__key--ctrl");
-              btn.innerHTML = "Ctrl";
-              } else if (e.code == "AltLeft" && btn.innerText == "Alt") {
-                btn.classList.add("keyboard__key--keyboard");
-                btn.click();
-                btn.classList.add("keyboard__key--ctrl");
-                btn.innerHTML = "Alt";
-
-            } else if (e.code == "Enter" && btn.innerText == "keyboard_return") {
-              btn.classList.add("keyboard__key--keyboard");
-              this.properties.value = prev + "\n" + next;
-            } else if (e.code == "Backspace" && btn.innerText == "keyboard_backspace") {
-              btn.classList.add("keyboard__key--keyboard");
-              this.properties.value = prev.substring(0, prev.length - 1) + next;
-            } else if (e.code == "Space" && btn.innerText == "space_bar") {
-              btn.classList.add("keyboard__key--keyboard");
-              this.properties.value = prev + " " + next;
-
-            } else if (e.code == "Tab" && btn.innerText == "keyboard_tab") {
-              document.querySelector(".textarea-field").focus();
-              btn.classList.add("keyboard__key--keyboard");
-              this.properties.value = prev + "    " + next;
-              this.triggerevent("oninput");
-              
-              
-            } else if ( e.code == "ArrowLeft" && btn.innerText == "keyboard_arrow_left") {
-              document.querySelector(".textarea-field").focus();
-              btn.classList.add("keyboard__key--keyboard");
-              this.properties.value += "⇐"
-              this.triggerevent("oninput");
-            } else if ( e.code == "ArrowRight" && btn.innerText == "keyboard_arrow_right") {
-              document.querySelector(".textarea-field").focus();
-              btn.classList.add("keyboard__key--keyboard");
-              this.properties.value += "⇒"
-              this.triggerevent("oninput");
-            }  else if ( e.code == "ArrowDown" && btn.innerText == "keyboard_arrow_down") {
-              document.querySelector(".textarea-field").focus();
-              btn.classList.add("keyboard__key--keyboard");
-              this.properties.value += "⇓"
-              this.triggerevent("oninput");
-            }  else if ( e.code == "ArrowUp" && btn.innerText == "keyboard_arrow_up") {
-              document.querySelector(".textarea-field").focus();
-              btn.classList.add("keyboard__key--keyboard");
-              this.properties.value += "⇑"
-              this.triggerevent("oninput");
-            } else if ( 
-            e.key == "/" && btn.innerText == "?" ||
-            e.key == btn.innerText) { btn.classList.add("keyboard__key--keyboard");
-            this.properties.value = prev + btn.innerText + next;
-}
-          })
-          
+    });
+    const body = document.querySelector('body');
+    document.addEventListener('keydown', (e) => {
+      const pos = document.querySelector('.textarea-field').selectionStart;
+      const prev = this.properties.value.slice(0, pos);
+      const next = this.properties.value.slice(pos);
+      body.lastElementChild.firstElementChild.childNodes.forEach((btn) => {
+        if (e.code === `Key${btn.innerText.toUpperCase()}`) {
+          document.querySelector('.textarea-field').focus();
+          btn.classList.add('keyboard__key--keyboard');
+          this.properties.value = prev + btn.innerText + next;
+        } else if (e.code === 'CapsLock' && btn.innerText === 'keyboard_capslock') {
+          btn.classList.add('keyboard__key--keyboard');
+          btn.click();
+        } else if (e.code === 'ShiftLeft' && btn.innerText === 'arrow_upward') {
+          btn.classList.add('keyboard__key--keyboard');
+          this.useshift(true);
+          btn.click();
+        } else if (e.code === 'ControlLeft' && btn.innerText === 'Ctrl') {
+          btn.classList.add('keyboard__key--keyboard');
+          btn.click();
+          btn.classList.add('keyboard__key--ctrl');
+          // eslint-disable-next-line no-param-reassign
+          btn.innerHTML = 'Ctrl';
+        } else if (e.code === 'AltLeft' && btn.innerText === 'Alt') {
+          btn.classList.add('keyboard__key--keyboard');
+          btn.click();
+          btn.classList.add('keyboard__key--ctrl');
+          // eslint-disable-next-line no-param-reassign
+          btn.innerHTML = 'Alt';
+        } else if (e.code === 'Enter' && btn.innerText === 'keyboard_return') {
+          btn.classList.add('keyboard__key--keyboard');
+          this.properties.value = `${prev}\n${next}`;
+        } else if (e.code === 'Backspace' && btn.innerText === 'keyboard_backspace') {
+          btn.classList.add('keyboard__key--keyboard');
+          this.properties.value = prev.substring(0, prev.length - 1) + next;
+        } else if (e.code === 'Space' && btn.innerText === 'space_bar') {
+          btn.classList.add('keyboard__key--keyboard');
+          this.properties.value = `${prev} ${next}`;
+        } else if (e.code === 'Tab' && btn.innerText === 'keyboard_tab') {
+          document.querySelector('.textarea-field').focus();
+          btn.classList.add('keyboard__key--keyboard');
+          this.properties.value = `${prev}    ${next}`;
+          this.triggerevent('oninput');
+        } else if (e.code === 'ArrowLeft' && btn.innerText === 'keyboard_arrow_left') {
+          document.querySelector('.textarea-field').focus();
+          btn.classList.add('keyboard__key--keyboard');
+          this.properties.value += '⇐';
+          this.triggerevent('oninput');
+        } else if (e.code === 'ArrowRight' && btn.innerText === 'keyboard_arrow_right') {
+          document.querySelector('.textarea-field').focus();
+          btn.classList.add('keyboard__key--keyboard');
+          this.properties.value += '⇒';
+          this.triggerevent('oninput');
+        } else if (e.code === 'ArrowDown' && btn.innerText === 'keyboard_arrow_down') {
+          document.querySelector('.textarea-field').focus();
+          btn.classList.add('keyboard__key--keyboard');
+          this.properties.value += '⇓';
+          this.triggerevent('oninput');
+        } else if (e.code === 'ArrowUp' && btn.innerText === 'keyboard_arrow_up') {
+          document.querySelector('.textarea-field').focus();
+          btn.classList.add('keyboard__key--keyboard');
+          this.properties.value += '⇑';
+          this.triggerevent('oninput');
+        } else if (
+          // eslint-disable-next-line no-mixed-operators
+          e.key === '/' && btn.innerText === '?' || e.key === btn.innerText) {
+          btn.classList.add('keyboard__key--keyboard');
+          this.properties.value = prev + btn.innerText + next;
+        }
       });
-
-      document.addEventListener("keyup", (e) => {
-        body.lastElementChild.firstElementChild.childNodes.forEach( btn => {
-            if (btn.innerText !== "check_circle") {
-              btn.classList.remove("keyboard__key--keyboard");
-            } 
-             if (e.code == "ShiftLeft" && btn.innerText == "arrow_upward") {
-              btn.classList.remove("keyboard__key--keyboard");
-              this.useshift(true);
-              btn.click();}
-        })
+    });
+    document.addEventListener('keyup', (e) => {
+      body.lastElementChild.firstElementChild.childNodes.forEach((btn) => {
+        if (btn.innerText !== 'check_circle') {
+          btn.classList.remove('keyboard__key--keyboard');
+        }
+        if (e.code === 'ShiftLeft' && btn.innerText === 'arrow_upward') {
+          btn.classList.remove('keyboard__key--keyboard');
+          this.useshift(true);
+          btn.click();
+        }
       });
-    },
-
-    extend(initialValue, oninput) {
-        this.properties.value = initialValue || "";
-        this.ehandlers.oninput = oninput;
-      },
-    
- getkeys() {
-      const fragment = document.createDocumentFragment();
-      const keymap = [
-       "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "backspace",
-        "Tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\" ,
-        "caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "enter",
-        "shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "up", 
-        "ctrl", "alt", "space", "lang", "left", "down", "right", 
-      ];
-  
-      const createIconHTML = (icon_name) => {
-      return `<i class="material-icons">${icon_name}</i>`;
-      };
-  
-      keymap.forEach(key => {
-        const keybtn = document.createElement("button");
-        const insertLineBreak = ["backspace", "]", "enter", "?"].indexOf(key) !== -1;
-  
-        keybtn.setAttribute("type", "button");
-        keybtn.classList.add("keyboard__key");
-  
-        switch (key) {
-          case "backspace":
-              keybtn.classList.add("keyboard__key--cmdbtn");
-              keybtn.innerHTML = createIconHTML("keyboard_backspace");
-              keybtn.addEventListener("click", () => {
-                let pos = document.querySelector(".textarea-field").selectionStart;
-                let prev = this.properties.value.slice(0, pos);
-                let next = this.properties.value.slice(pos);
-
-                document.querySelector(".textarea-field").focus();
-                this.properties.value = prev.substring(0, prev.length - 1) + next;
-                this.triggereventprev("oninput");
-              });
- 
-  
-            break;
-  
-          case "caps":
-            keybtn.classList.add("keyboard__key--cmdbtn", "keyboard__key--light");
-            keybtn.innerHTML = createIconHTML("keyboard_capslock");
-  
-            keybtn.addEventListener("click", () => {
-              document.querySelector(".textarea-field").focus();
-             this.usecapslock();
-              keybtn.classList.toggle("keyboard__key--active", this.properties.capsLock);
-            });
-  
-            break;
-
-            case "ctrl":
-              keybtn.classList.add("keyboard__key--ctrl");
-              keybtn.innerHTML = "Ctrl";
-    
-              break;
-
-              case "alt":
-                keybtn.classList.add("keyboard__key--ctrl");
-                keybtn.innerHTML = "Alt";
-      
-                break;   
-  
-          case "enter":
-            keybtn.classList.add("keyboard__key--cmdbtn");
-            keybtn.innerHTML = createIconHTML("keyboard_return");
-  
-            keybtn.addEventListener("click", () => {
-              let pos = document.querySelector(".textarea-field").selectionStart;
-              let prev = this.properties.value.slice(0, pos);
-              let next = this.properties.value.slice(pos);
-
-              
-              document.querySelector(".textarea-field").focus();
-              this.properties.value = prev + "\n" + next;
-              this.triggerevent("oninput");
-            });
-  
-            break;
-  
-          case "space":
-            keybtn.classList.add("keyboard__key--large");
-            keybtn.innerHTML = createIconHTML("space_bar");
-  
-            keybtn.addEventListener("click", () => {
-              let pos = document.querySelector(".textarea-field").selectionStart;
-              let prev = this.properties.value.slice(0, pos);
-              let next = this.properties.value.slice(pos);
-
-              document.querySelector(".textarea-field").focus();
-              this.properties.value = prev + " " + next;
-              this.triggerevent("oninput");
-
-              
-            });
-  
-            break;
-
-          case "shift":
-            shift = true;
-            keybtn.classList.add("keyboard__key--shift");
-            keybtn.innerHTML = createIconHTML("arrow_upward");
-            
-         keybtn.addEventListener("mousedown", () => {
-              document.querySelector(".textarea-field").focus();
-
-              this.useshift(true);
-              keybtn.classList.toggle("keyboard__key--active", this.properties.shift);
-            })
-
-            keybtn.addEventListener("mouseup", () => {
-              document.querySelector(".textarea-field").focus();
-
-              this.useshift(false);
-              keybtn.classList.toggle("keyboard__key--active", this.properties.shift);
-            })
-
-        
-            break;
-          
-          case "lang":
-            keybtn.classList.add("keyboard__key--cmdbtn");
-            keybtn.innerHTML = "Lang";
-
-            keybtn.addEventListener("click", () => {
-              document.querySelector(".textarea-field").focus();
-              this.changelanguage();
-              keybtn.innerHTML = this.properties.lang ? "Ru": "En"
-             
-              keybtn.classList.toggle(this.properties.lang);
-
-              localStorage.setItem('language', this.changelanguage);
-
-            });
-
-            break;
-
-          case "left":
-            const charleft = "⇐";
-            keybtn.classList.add("keyboard__key--arrow");
-            keybtn.innerHTML = createIconHTML("keyboard_arrow_left");
-
-            keybtn.addEventListener("click", () => {
-                document.querySelector(".textarea-field").focus();
-                this.properties.value += charleft
-                this.triggerevent("oninput");
-            });
-
-            break;
-
-          case "right": 
-          const charright = "⇒"
-
-          keybtn.classList.add("keyboard_arrow--arrow");
-          keybtn.innerHTML = createIconHTML("keyboard_arrow_right");
-
-          keybtn.addEventListener("click", () => {
-            document.querySelector(".textarea-field").focus();
-              this.properties.value += charright   
-              this.triggerevent("oninput");
+    });
+  },
+  extend(initialValue, oninput) {
+    this.properties.value = initialValue || '';
+    this.ehandlers.oninput = oninput;
+  },
+  getkeys() {
+    const fragment = document.createDocumentFragment();
+    const keymap = [
+      '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'backspace',
+      'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\',
+      'caps', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'enter',
+      'shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'up',
+      'ctrl', 'alt', 'space', 'lang', 'left', 'down', 'right',
+    ];
+    // eslint-disable-next-line camelcase
+    const createIconHTML = (icon_name) => `<i class="material-icons">${icon_name}</i>`;
+    keymap.forEach((key) => {
+      const keybtn = document.createElement('button');
+      const insertLineBreak = ['backspace', ']', 'enter', '?'].indexOf(key) !== -1;
+      keybtn.setAttribute('type', 'button');
+      keybtn.classList.add('keyboard__key');
+      switch (key) {
+        case 'backspace':
+          keybtn.classList.add('keyboard__key--cmdbtn');
+          keybtn.innerHTML = createIconHTML('keyboard_backspace');
+          keybtn.addEventListener('click', () => {
+            const pos = document.querySelector('.textarea-field').selectionStart;
+            const prev = this.properties.value.slice(0, pos);
+            const next = this.properties.value.slice(pos);
+            document.querySelector('.textarea-field').focus();
+            this.properties.value = prev.substring(0, prev.length - 1) + next;
+            this.triggereventprev('oninput');
           });
-
-            break;
-
-            case "up":
-              const charup = "⇑";
-              keybtn.classList.add("keyboard__key--arrow");
-              keybtn.innerHTML = createIconHTML("keyboard_arrow_up");
-
-              keybtn.addEventListener("click", () => {
-                document.querySelector(".textarea-field").focus();
-                  this.properties.value += charup
-                  this.triggerevent("oninput");
-              });
-
-              break; 
-
-
-              case "down":
-                  const chardown = "⇓"
-                  
-                  input = document.querySelector('.textarea-field')
-                  keybtn.classList.add("keyboard_arrow--arrow");
-                  keybtn.innerHTML = createIconHTML("keyboard_arrow_down");
-
-                  keybtn.addEventListener("click", () => {
-                    document.querySelector(".textarea-field").focus();
-                      this.properties.value += chardown
-                      //document.querySelector(".textarea-field").className += " myClass";
-                      //input.classList.toggle("myClass")
-                      this.triggerevent("oninput");
-                  });
-
-                  break; 
-
-            case "Tab":
-              keybtn.classList.add("keyboard__key--tab");
-              keybtn.innerHTML = createIconHTML("keyboard_tab");
-              document.querySelector(".textarea-field").focus();
-              keybtn.addEventListener("click", () => {
-                let pos = document.querySelector(".textarea-field").selectionStart;
-                let prev = this.properties.value.slice(0, pos);
-                let next = this.properties.value.slice(pos);
-  
-                document.querySelector(".textarea-field").focus();
-                this.properties.value = prev + "    " + next;
-                this.triggerevent("oninput");
-              });
-              break;
-          
-         
-  
-          default:
-            keybtn.textContent = key;
-  
-            keybtn.addEventListener("click", () => {
-              let pos = document.querySelector(".textarea-field").selectionStart;
-              let prev = this.properties.value.slice(0, pos);
-              let next = this.properties.value.slice(pos);
-
-              document.querySelector(".textarea-field").focus();
-              if (this.properties.capsLock && this.properties.shift) {
-                this.properties.value = prev + keybtn.textContent.toLowerCase() + next;
-              } else if (this.properties.shift) {
-                this.properties.value = prev + keybtn.textContent.toUpperCase() + next;
-              } else if (this.properties.capsLock) {
-                this.properties.value = prev + keybtn.textContent.toUpperCase() + next;
-              }else {
-                this.properties.value = prev + keybtn.textContent.toLowerCase() + next;
-              }
-            
-              
-              this.triggerevent("oninput");
-            });
-  
-            break;
-        }
-  
-        fragment.appendChild(keybtn);
-  
-        if (insertLineBreak) {
-          fragment.appendChild(document.createElement("br"));
-        }
-      });
-  
-      return fragment;
-    },
-   
-    usecapslock() {
-        this.properties.capsLock = !this.properties.capsLock;
-    
-        for (const key of this.elems.keys) {
-          if (key.childElementCount === 0 && key.innerText.length == 1) {
-            if (this.properties.shift) {
-              key.textContent = this.properties.capsLock ? key.textContent.toLowerCase() : key.textContent.toUpperCase();
+          break;
+        case 'caps':
+          keybtn.classList.add('keyboard__key--cmdbtn', 'keyboard__key--light');
+          keybtn.innerHTML = createIconHTML('keyboard_capslock');
+          keybtn.addEventListener('click', () => {
+            document.querySelector('.textarea-field').focus();
+            this.usecapslock();
+            keybtn.classList.toggle('keyboard__key--active', this.properties.capsLock);
+          });
+          break;
+        case 'ctrl':
+          keybtn.classList.add('keyboard__key--ctrl');
+          keybtn.innerHTML = 'Ctrl';
+          break;
+        case 'alt':
+          keybtn.classList.add('keyboard__key--ctrl');
+          keybtn.innerHTML = 'Alt';
+          break;
+        case 'enter':
+          keybtn.classList.add('keyboard__key--cmdbtn');
+          keybtn.innerHTML = createIconHTML('keyboard_return');
+          keybtn.addEventListener('click', () => {
+            const pos = document.querySelector('.textarea-field').selectionStart;
+            const prev = this.properties.value.slice(0, pos);
+            const next = this.properties.value.slice(pos);
+            document.querySelector('.textarea-field').focus();
+            this.properties.value = `${prev}\n${next}`;
+            this.triggerevent('oninput');
+          });
+          break;
+        case 'space':
+          keybtn.classList.add('keyboard__key--large');
+          keybtn.innerHTML = createIconHTML('space_bar');
+          keybtn.addEventListener('click', () => {
+            const pos = document.querySelector('.textarea-field').selectionStart;
+            const prev = this.properties.value.slice(0, pos);
+            const next = this.properties.value.slice(pos);
+            document.querySelector('.textarea-field').focus();
+            this.properties.value = `${prev} ${next}`;
+            this.triggerevent('oninput');
+          });
+          break;
+        case 'shift':
+          keybtn.classList.add('keyboard__key--shift');
+          keybtn.innerHTML = createIconHTML('arrow_upward');
+          keybtn.addEventListener('mousedown', () => {
+            document.querySelector('.textarea-field').focus();
+            this.useshift(true);
+            keybtn.classList.toggle('keyboard__key--active', this.properties.shift);
+          });
+          keybtn.addEventListener('mouseup', () => {
+            document.querySelector('.textarea-field').focus();
+            this.useshift(false);
+            keybtn.classList.toggle('keyboard__key--active', this.properties.shift);
+          });
+          break;
+        case 'lang':
+          keybtn.classList.add('keyboard__key--cmdbtn');
+          keybtn.innerHTML = 'Lang';
+          keybtn.addEventListener('click', () => {
+            document.querySelector('.textarea-field').focus();
+            this.changelanguage();
+            keybtn.innerHTML = this.properties.lang ? 'Ru' : 'En';
+            keybtn.classList.toggle(this.properties.lang);
+            // keybtn.setAttribute('lang', this.properties.lang)
+          });
+          break;
+        case 'left':
+          const charleft = '⇐';
+          keybtn.classList.add('keyboard__key--arrow');
+          keybtn.innerHTML = createIconHTML('keyboard_arrow_left');
+          keybtn.addEventListener('click', () => {
+            document.querySelector('.textarea-field').focus();
+            this.properties.value += charleft;
+            this.triggerevent('oninput');
+          });
+          break;
+        case 'right':
+          const charright = '⇒';
+          keybtn.classList.add('keyboard_arrow--arrow');
+          keybtn.innerHTML = createIconHTML('keyboard_arrow_right');
+          keybtn.addEventListener('click', () => {
+            document.querySelector('.textarea-field').focus();
+            this.properties.value += charright;
+            this.triggerevent('oninput');
+          });
+          break;
+        case 'up':
+          const charup = '⇑';
+          keybtn.classList.add('keyboard__key--arrow');
+          keybtn.innerHTML = createIconHTML('keyboard_arrow_up');
+          keybtn.addEventListener('click', () => {
+            document.querySelector('.textarea-field').focus();
+            this.properties.value += charup;
+            this.triggerevent('oninput');
+          });
+          break;
+        case 'down':
+          const chardown = '⇓';
+          keybtn.classList.add('keyboard_arrow--arrow');
+          keybtn.innerHTML = createIconHTML('keyboard_arrow_down');
+          keybtn.addEventListener('click', () => {
+            document.querySelector('.textarea-field').focus();
+            this.properties.value += chardown;
+            // document.querySelector(".textarea-field").className += " myClass";
+            // input.classList.toggle("myClass")
+            this.triggerevent('oninput');
+          });
+          break;
+        case 'Tab':
+          keybtn.classList.add('keyboard__key--tab');
+          keybtn.innerHTML = createIconHTML('keyboard_tab');
+          document.querySelector('.textarea-field').focus();
+          keybtn.addEventListener('click', () => {
+            const pos = document.querySelector('.textarea-field').selectionStart;
+            const prev = this.properties.value.slice(0, pos);
+            const next = this.properties.value.slice(pos);
+            document.querySelector('.textarea-field').focus();
+            this.properties.value = `${prev}    ${next}`;
+            this.triggerevent('oninput');
+          });
+          break;
+        default:
+          keybtn.textContent = key;
+          keybtn.addEventListener('click', () => {
+            const pos = document.querySelector('.textarea-field').selectionStart;
+            const prev = this.properties.value.slice(0, pos);
+            const next = this.properties.value.slice(pos);
+            document.querySelector('.textarea-field').focus();
+            if (this.properties.capsLock && this.properties.shift) {
+              this.properties.value = prev + keybtn.textContent.toLowerCase() + next;
+            } else if (this.properties.shift) {
+              this.properties.value = prev + keybtn.textContent.toUpperCase() + next;
+            } else if (this.properties.capsLock) {
+              this.properties.value = prev + keybtn.textContent.toUpperCase() + next;
             } else {
-              key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+              this.properties.value = prev + keybtn.textContent.toLowerCase() + next;
             }
-          }
-        }
-      },
-
-useshift() {
-      this.properties.shift = !this.properties.shift;
-
-       const ruitems = ["ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."];
-  const rushiftitems = ["Ё", "!", '"', "№", ";", "%", ":", "?", "*", "(", ")", ","];    
-       const enitems = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "[", "]", ";", "'", ",", ".", "/"];
-  const enshiftitems = ["~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "{", "}", ":", '"', "<", ">", "?"];
-  
-
-      document.querySelectorAll("button").forEach(btn => {
-
-        if (this.properties.shift && this.properties.lang == false) {
-          if (btn.innerText.charCodeAt(0) > 64 && btn.innerText.charCodeAt(0) < 91 && btn.innerText.length == 1) {
-            btn.innerText = btn.innerText.toLowerCase();
-          } else if (btn.innerText.charCodeAt(0) > 96 && btn.innerText.charCodeAt(0) < 123 && btn.innerText.length == 1) {
-            btn.innerText = btn.innerText.toUpperCase();
-          } else if (enitems.indexOf(btn.innerText) > -1) {
-            btn.innerText = enshiftitems[enitems.indexOf(btn.innerText)];
-          }
-        } else if (this.properties.lang == false) {
-          if (btn.innerText.charCodeAt(0) > 64 && btn.innerText.charCodeAt(0) < 91 && btn.innerText.length == 1) {
-            btn.innerText = btn.innerText.toLowerCase();
-          } else if (btn.innerText.charCodeAt(0) > 96 && btn.innerText.charCodeAt(0) < 123 && btn.innerText.length == 1) {
-            btn.innerText = btn.innerText.toUpperCase();
-          } else if (enshiftitems.indexOf(btn.innerText) > -1) {
-            btn.innerText = enitems[enshiftitems.indexOf(btn.innerText)];
-          }
-        } else if (this.properties.shift && this.properties.lang == true) {
-          if (btn.innerText.charCodeAt(0) > 1039 && btn.innerText.charCodeAt(0) < 1072 && btn.innerText.length == 1) {
-            btn.innerText = btn.innerText.toLowerCase();
-          } else if (btn.innerText.charCodeAt(0) > 1071 && btn.innerText.charCodeAt(0) < 1104 && btn.innerText.length == 1) {
-            btn.innerText = btn.innerText.toUpperCase();
-          } else if (ruitems.indexOf(btn.innerText) > -1) {
-            btn.innerText = rushiftitems[ruitems.indexOf(btn.innerText)];
-          }
+            this.triggerevent('oninput');
+          });
+          break;
+      }
+      fragment.appendChild(keybtn);
+      if (insertLineBreak) {
+        fragment.appendChild(document.createElement('br'));
+      }
+    });
+    return fragment;
+  },
+  usecapslock() {
+    this.properties.capsLock = !this.properties.capsLock;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key of this.elems.keys) {
+      if (key.childElementCount === 0 && key.innerText.length === 1) {
+        if (this.properties.shift) {
+          // eslint-disable-next-line max-len
+          key.textContent = this.properties.capsLock ? key.textContent.toLowerCase() : key.textContent.toUpperCase();
         } else {
-          if (btn.innerText.charCodeAt(0) > 1039 && btn.innerText.charCodeAt(0) < 1072 && btn.innerText.length == 1) {
-            btn.innerText = btn.innerText.toLowerCase();
-          } else if (btn.innerText.charCodeAt(0) > 1071 && btn.innerText.charCodeAt(0) < 1104 && btn.innerText.length == 1) {
-            btn.innerText = btn.innerText.toUpperCase();
-          } else if (rushiftitems.indexOf(btn.innerText) > -1) {
-            btn.innerText = ruitems[rushiftitems.indexOf(btn.innerText)];
-          }}
-      })
-    },
-
-changelanguage() {
-      if (this.properties.shift) this.useshift();
-      if (this.properties.capsLock) this.usecapslock();
-      this.properties.lang = !this.properties.lang;
-
-      const ru = ["ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', "э", 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.'];
-      const en = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/'];
-
-      document.querySelectorAll("button").forEach(btn => {
-        btn.classList.remove("keyboard__key--active");
-        if (this.properties.lang) {
-          if (en.indexOf(btn.innerText) > -1) {
-            btn.innerText = ru[en.indexOf(btn.innerText)];
-          }
-        } else {
-          if (ru.indexOf(btn.innerText) > -1) {
-            btn.innerText = en[ru.indexOf(btn.innerText)];
-          }
+          // eslint-disable-next-line max-len
+          key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
         }
-      })
-    },
-    
-    triggereventprev(handlerName) {
-        if (typeof this.ehandlers[handlerName] == "function") {
-          let pos = document.querySelector(".textarea-field").selectionStart;
-          this.ehandlers[handlerName](this.properties.value);
-          if (pos > 0) {
-            document.querySelector(".textarea-field").selectionEnd = pos + 1;
-          } else {
-            document.querySelector(".textarea-field").selectionStart = 0;
-            document.querySelector(".textarea-field").selectionEnd = 0;
-          }
-        }
-      },
-  
-      triggerevent(handlerName) {
-        if (typeof this.ehandlers[handlerName] == "function") {
-          let pos = document.querySelector(".textarea-field").selectionStart;
-          this.ehandlers[handlerName](this.properties.value);
-          document.querySelector(".textarea-field").selectionEnd = pos + 1;
-        }
-      },
-  
-   
+      }
     }
+  },
+
+  useshift() {
+    this.properties.shift = !this.properties.shift;
+
+    const ruitems = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
+    const rushiftitems = ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', ','];
+    const enitems = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '[', ']', ';', "'", ',', '.', '/'];
+    const enshiftitems = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '{', '}', ':', '"', '<', '>', '?'];
+
+    document.querySelectorAll('button').forEach((btn) => {
+      if (this.properties.shift && this.properties.lang === false) {
+        if (btn.innerText.charCodeAt(0) > 6
+        && btn.innerText.charCodeAt(0) < 91 && btn.innerText.length === 1) {
+          btn.innerText = btn.innerText.toLowerCase();
+        } else if (btn.innerText.charCodeAt(0) > 96
+        && btn.innerText.charCodeAt(0) < 123 && btn.innerText.length === 1) {
+          btn.innerText = btn.innerText.toUpperCase();
+        } else if (enitems.indexOf(btn.innerText) > -1) {
+          btn.innerText = enshiftitems[enitems.indexOf(btn.innerText)];
+        }
+      } else if (this.properties.lang === false) {
+        if (btn.innerText.charCodeAt(0) > 64
+        && btn.innerText.charCodeAt(0) < 91
+         && btn.innerText.length === 1) {
+          btn.innerText = btn.innerText.toLowerCase();
+        } else if (btn.innerText.charCodeAt(0) > 96
+        && btn.innerText.charCodeAt(0) < 123 && btn.innerText.length === 1) {
+          btn.innerText = btn.innerText.toUpperCase();
+        } else if (enshiftitems.indexOf(btn.innerText) > -1) {
+          btn.innerText = enitems[enshiftitems.indexOf(btn.innerText)];
+        }
+      } else if (this.properties.shift && this.properties.lang === true) {
+        if (btn.innerText.charCodeAt(0) > 1039
+        && btn.innerText.charCodeAt(0) < 1072 && btn.innerText.length === 1) {
+          btn.innerText = btn.innerText.toLowerCase();
+        } else if (btn.innerText.charCodeAt(0) > 1071
+        && btn.innerText.charCodeAt(0) < 1104 && btn.innerText.length === 1) {
+          btn.innerText = btn.innerText.toUpperCase();
+        } else if (ruitems.indexOf(btn.innerText) > -1) {
+          btn.innerText = rushiftitems[ruitems.indexOf(btn.innerText)];
+        }
+      } else if (btn.innerText.charCodeAt(0) > 1039
+      && btn.innerText.charCodeAt(0) < 1072 && btn.innerText.length === 1) {
+        btn.innerText = btn.innerText.toLowerCase();
+      } else if (btn.innerText.charCodeAt(0) > 1071
+      && btn.innerText.charCodeAt(0) < 1104 && btn.innerText.length === 1) {
+        btn.innerText = btn.innerText.toUpperCase();
+      } else if (rushiftitems.indexOf(btn.innerText) > -1) {
+        btn.innerText = ruitems[rushiftitems.indexOf(btn.innerText)];
+      }
+    });
+  },
+
+  changelanguage() {
+    if (this.properties.shift) this.useshift();
+    if (this.properties.capsLock) this.usecapslock();
+    this.properties.lang = !this.properties.lang;
+
+    const ru = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.'];
+    const en = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/'];
+
+    document.querySelectorAll('button').forEach((btn) => {
+      btn.classList.remove('keyboard__key--active');
+      if (this.properties.lang) {
+        if (en.indexOf(btn.innerText) > -1) {
+          btn.innerText = ru[en.indexOf(btn.innerText)];
+        }
+      } else if (ru.indexOf(btn.innerText) > -1) {
+        btn.innerText = en[ru.indexOf(btn.innerText)];
+      }
+      /* localStorage.setItem("lang", this.properties.lang)
+          this.properties.lang = localStorage.getItem("lang") */
+    });
+  },
+
+  triggereventprev(handlerName) {
+    if (typeof this.ehandlers[handlerName] === 'function') {
+      const pos = document.querySelector('.textarea-field').selectionStart;
+      this.ehandlers[handlerName](this.properties.value);
+      if (pos > 0) {
+        document.querySelector('.textarea-field').selectionEnd = pos + 1;
+      } else {
+        document.querySelector('.textarea-field').selectionStart = 0;
+        document.querySelector('.textarea-field').selectionEnd = 0;
+      }
+    }
+  },
+
+  triggerevent(handlerName) {
+    if (typeof this.ehandlers[handlerName] === 'function') {
+      const pos = document.querySelector('.textarea-field').selectionStart;
+      this.ehandlers[handlerName](this.properties.value);
+      document.querySelector('.textarea-field').selectionEnd = pos + 1;
+    }
+  },
+
+};
+// localStorage.getItem("lang", this.properties.lang);
+/*  let keyBoard;
+if (localStorage.getItem('lang')) {
+    keyBoard = keyboard(localStorage.getItem('lang'));
+} else {
+    keyBoard = keyboard('en');
+}
+
+keyBoard.start();
+keyBoard.getkeys(); */
+window.addEventListener('DOMContentLoaded', () => {
+  const title = document.createElement('h1');
+  title.className = 'title';
+  title.innerHTML = 'Клавиатура создана в операционной системе Windows';
+  document.body.appendChild(title);
+  const subtitle = document.createElement('h3');
+  subtitle.className = 'subtitle';
+  subtitle.innerHTML = 'Для смены языка используйте кнопку Lang';
+  document.body.appendChild(subtitle);
+  keyboard.start();
+});
